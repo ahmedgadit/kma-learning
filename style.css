@@ -1,0 +1,144 @@
+label {
+    font-size: 20px;
+  }
+
+  h1 {
+    margin: 0;
+  }
+
+  body {
+    color: chartreuse;
+    font-weight: 900;
+    margin: 0;
+    background-color: darkslategrey;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  #header {
+    background: red;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    animation: 1s ease-out 0s 1 slideInFromUp;
+  }
+
+  #container {
+    display: flex;
+    position: relative;
+    flex: 1;
+  }
+
+  #sidebar {
+    background: green;
+    width: 300px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  #main {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 2fr));
+    gap: 20px;
+  }
+  
+  input {
+    border-radius: 5px;
+    height: 30px;
+  }
+
+  .submitBtn:active {
+    background-color: rgba(2, 2, 251, 0.646) !important;
+  }
+
+  .submitBtn:hover {
+    background-color: rgba(14, 14, 248, 0.081);
+  }
+
+  .grid-item {
+    background: #fff;
+    color: #000;
+    padding: 20px;
+    border-radius: 5;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+
+
+
+  #chatbox {
+    position: absolute;
+    width: 100px;
+    display: flex;
+    background-color: blue;
+    border-radius: 100%;
+    z-index: 0;
+    bottom: 5%;
+    right: 5%;
+    z-index: 20;
+  }
+
+  #messagebox {
+    padding:20px;
+  }
+
+  #messagebox:hover {
+    padding:30px;
+  }
+
+  #fixedDiv {
+    position: fixed;
+    color: white;
+    background-color: sandybrown;
+    display: flex;
+    border-radius: 100%;
+    width: 100px;
+    bottom: 5%;
+    left: 5%;
+    height: 100px;
+    z-index: 21;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #stickyBar {
+    position: sticky;
+    top: 0px;
+    grid-column: span 4 / span 4;
+    width: 100%;
+    height: 200px;
+    background-color: pink;
+  }
+
+  @keyframes slideInFromUp {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  /*    
+  Important CSS properties 
+  height - done
+  width - done
+  margin - done
+  padding - done
+  display - done
+  position - done
+  left, top, botm, right - done
+  links 
+  icon 
+  border - done
+  box
+  pseudo elemens
+  align */
+
+
+  /* function example of math f = (x) takes input and give output */

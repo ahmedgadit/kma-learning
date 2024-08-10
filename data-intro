@@ -1,0 +1,8 @@
+Data Introduction
+
+text - string
+number - integer
+boolean - true / false
+object - { name: "ball pen", color: "blue", price: 10 }
+array - [] , examples of array - [1,0,"cyz",true] (bad form of array), ['arbaz', 'haseeb', 'mustafa'], [1,2,3,4]
+array of objects - [{}, {}, {},] - [{name:"arbaz", age:14}, {name:"mustafa", age:16}, {name:"haseeb", age:15}]

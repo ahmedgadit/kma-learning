@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>First Class Html</title>
+    <link rel="icon" type="image/png" href="simple-twitter-16x16-icon-png-7.png" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    
+    <div id="header" class="slideDown">
+      <h1>Header</h1>
+    </div>
+    <div id="container">
+      <div id="sidebar">
+        <h1>Sidebar</h1>
+      </div>
+      <div id="mainBox" style="display: flex; width: 100%; gap:10px">
+        <div class="grid-item slideDown" style="width: 30%;">
+            <form id="taskForm" onsubmit="event.preventDefault();" style="display: flex; flex-direction:column; gap: 4px; ">
+              <label>Task Detail</label>
+              <input type="text" name="task" required id="taskField" />
+              <span style="color:red;" hidden id="taskErrorField">This field is required</span>
+              <button type="button" id="submitBtn" onclick="saveTask()" class="submitBtn" style="background-color: blue; color: white; padding: 10px; border: none; border-radius: 5px;">Save</button>
+            </form>
+        </div>
+        <div id="boxList"  style="width: 80%; display: flex; flex-direction: column; gap: 4px;" class="grid-item slideDown">
+          
+        </div>
+    </div>
+  </body>
+  <script>
+    // syntax rule
+    // camelCase - taskField
+    // snake_case - task_field
+    // kebab-case - task-field
+    // pascal-case - TaskField
+    var tasks = [];
+    var editTaskId = null;
+    var taskVal = document.getElementById('taskField');
+    var btnElement = document.getElementById('submitBtn');
+    var boxElement = document.getElementById('boxList');
+
+    var taskErrorField = document.getElementById('taskErrorField');
+
+    function saveTask() {
+      if(taskVal.validity.valueMissing){
+        taskErrorField.hidden = false
+        return false
+      }
+      taskErrorField.hidden = true
+      if(editTaskId != null) {
+        tasks[editTaskId] = taskVal.value;
+        currentTaskId = editTaskId
+        renderHtmlList();
+        editTaskId = null;
+        btnElement.innerHTML = "Save";
+      } else {
+        tasks.push(taskVal.value);
+        renderHtmlList();
+      }
+      taskVal.value = "";
+    }
+
+    // parameter used in function brackets
+    function editTask(id) {
+      editTaskId = id;
+      taskVal.value = tasks[id];
+      btnElement.innerHTML = "Update";
+    }
+
+    function deleteTask(id) {
+      tasks.splice(id,1);
+      renderHtmlList();
+    }
+
+    function renderHtmlList() {
+      var renderListElement = '';
+      tasks.forEach((x, index) => {
+        renderListElement += `<div class="box" style="background-color: aqua;">
+          <div style="padding-left:10px; border-radius: 50%; padding-right: 10px; display:flex; justify-content: space-between; align-items: center;">
+            <p>`+ x +`</p>
+            <div >
+              <button onclick="editTask(`+index+`)">
+                Edit
+              </button>
+              <button onclick="deleteTask(`+ index +`)">
+                X
+              </button>
+            </div>
+          </div>
+        </div>`;
+      });
+      boxElement.innerHTML = renderListElement;
+    }
+  </script>
+</html>
