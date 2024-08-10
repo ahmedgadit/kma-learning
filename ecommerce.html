@@ -102,7 +102,6 @@
             total_amount: '',
             cart_details: [],
         }
-
         var checkoutForm = {
             first_name: '',
             last_name: '',
@@ -124,7 +123,6 @@
             total_amount: '',
             cart_details: [],
         }
-
         var products = [
             {
                 id: 1,
@@ -162,9 +160,7 @@
                 discounted_price: 3000,
             },
         ];
-
         renderProducts();
-
         function validateFields() {
              var basicFields = [
                 'first_name',
@@ -172,7 +168,6 @@
                 'address',
                 'postal_code'
             ]
-
             const basicValidation = () => {
                 var checkValidation = true;
                 basicFields.forEach((x)=> {
@@ -185,48 +180,37 @@
                 })
                 return checkValidation
             }
-            
-
             var testBasicValidation = basicValidation();
             if(!testBasicValidation) {
                 return false
             }
-
             const validatePhoneNumber = (phoneNumber) => {
                 const regex = /^(\+92|92|033|03)[ -]*\d{3}[ -]*\d{7}$/;
                 return regex.test(phoneNumber);
             }
-
             if (!validatePhoneNumber(document.getElementById('number').value)) {
                 document.getElementById('taskErrorField-number').hidden = false
                 return false
             } else {
                 document.getElementById('taskErrorField-number').hidden = true
             }
-
             const validateEmail = (email) => {
                 const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
                 return regex.test(email);
             }
-
             if(!validateEmail(document.getElementById('email').value)) {
                 document.getElementById('taskErrorField-email').hidden = false;
                 return false;
             } else {
                 document.getElementById('taskErrorField-email').hidden = true;
             }
-
-          
             if(checkoutForm.cart_details.length == 0) {
                 alert("Please add items in your cart first");
                 return false
             }
-
             return true
            
         }
-
-    
         function sumbitCheckout() {
             debugger;
             const checkForm = validateFields();
@@ -238,10 +222,6 @@
                 renderCarts();
             }
         }
-
-
-
-
         function addToCart(product) {
             debugger;
             var currentProduct = products.find((x) => { return x.id == product });
@@ -260,7 +240,6 @@
             document.getElementById('qty'+product).value = '';
             renderCarts();
         }
-
         /**
          * This function is used to remove items from cart
          * @params number id
@@ -273,13 +252,9 @@
 
             renderCarts();
         }
-
-
         function renderCarts() {
             let cartHtml = '';
             var cartDiv = document.getElementById('boxList');
-
-            
             checkoutForm.cart_details.forEach((x) => {
                 var priceBox = x.discounted_price < x.price ? `<div class='actual-price'>
                         <span class='discount-price'> `+x.price+`</span>
@@ -287,7 +262,6 @@
                     </div>` : `<div class='actual-price'>
                         `+x.price+`
                     </div>` ;
-
 
                 cartHtml += `<div class="box" style="background-color: aqua;">
                     <div style="padding-left:10px; border-radius: 50%; padding-right: 10px; display:flex; justify-content: space-between; align-items: center;">
@@ -306,12 +280,9 @@
             });
             cartDiv.innerHTML = cartHtml;
         }
-        
         function renderProducts() {
             let productHtml = '';
             var productDiv = document.getElementById('main');
-
-            
             products.forEach((x) => {
                 var priceBox = x.discounted_price < x.price ? `<div class='actual-price'>
                         <span class='discount-price'> `+x.price+`</span>
@@ -319,8 +290,6 @@
                     </div>` : `<div class='actual-price'>
                         `+x.price+`
                     </div>` ;
-
-
                 productHtml += `<div class='grid-item slideDown'>
                     <h1>`+ x.name +`</h1>
                     <p>`+ x.description +`</p>
@@ -334,6 +303,5 @@
             });
             productDiv.innerHTML = productHtml;
         }
-
     </script>
 </html>
