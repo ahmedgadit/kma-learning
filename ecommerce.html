@@ -57,7 +57,7 @@
                   </select>
                   <span style='color:red;' hidden id='taskErrorField-country'>This field is required</span>
                   <div>
-                      <label class="paymentLabel">
+                      <label class="paymentLabel blue-700">
                           <input type='radio' name='task' required id='payment_method' checked placeholder="Enter you payment_method"/>
                           Cash on Delivery
                       </label>
@@ -285,7 +285,7 @@
             var productDiv = document.getElementById('main');
             products.forEach((x) => {
                 var priceBox = x.discounted_price < x.price ? `<div class='actual-price'>
-                        <span class='discount-price'> `+x.price+`</span>
+                        <span class='text-blue-700'> `+x.price+`</span>
                         `+x.discounted_price+`
                     </div>` : `<div class='actual-price'>
                         `+x.price+`
@@ -304,4 +304,5 @@
             productDiv.innerHTML = productHtml;
         }
     </script>
+    
 </html>
