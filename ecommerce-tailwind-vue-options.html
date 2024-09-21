@@ -90,13 +90,6 @@
   <body id="app" class="bg-white-50 flex flex-col text-blue-900 h-svh">
     <div class="bg-red-50 p-8">
       <h1 class="text-blue-500 text-6xl">{{ message }}</h1>
-      <h1 class="text-blue-500 text-6xl">{{ message }}</h1>
-      <h1 class="text-blue-500 text-6xl">{{ message }}</h1>
-      <h1 class="text-blue-500 text-6xl">{{ message }}</h1>
-      <h1 class="text-blue-500 text-6xl">{{ message }}</h1>
-      <h1 class="text-blue-500 text-6xl">{{ message }}</h1>
-      <h1 class="text-blue-500 text-6xl">{{ message }}</h1>
-      <h1 class="text-blue-500 text-6xl">{{ message }}</h1>
       <button @click="changesMsg">Change me</button>
     </div>
     <div id="container" class="flex grow flex-column">
@@ -213,7 +206,7 @@
             </div>
             <button
               type="button"
-              onclick="sumbitCheckout()"
+              @click="sumbitCheckout()"
               id="submitBtn"
               class="bg-blue-600 text-white-200 p-2 border-0 hover:bg-blue-700 active:bg-blue-700 rounded-md"
             >
@@ -231,7 +224,30 @@
                 gap: 4px;
               "
               class="grid-item slideDown"
-            ></div>
+            >
+            <div class="box bg-red-50 font-medium text-blue-900">
+              <div style="padding-left:10px; border-radius: 50%; padding-right: 10px; display:flex; justify-content: space-between; align-items: center;" v-for="(x, index) in this.checkoutForm.cart_details">
+                <p>{{ x.name}} </p>
+                <div class='text-seaGreen-500' v-if="x.discounted_price < x.price">
+                  <span class='text-red-600 line-through' :data-id="x.id">
+                    {{x.price}}
+                  </span>
+                    {{x.discounted_price}}
+                </div>
+                <div class='text-seaGreen-500' v-else>
+                  {{x.price}}
+                </div>
+                <div>
+                  {{'Quantity '+  x.quantity }}
+                </div>
+                <div>
+                  <button class="text-red-500" @click="removeItemCart(x.id)">
+                      X
+                  </button>
+                </div>
+              </div>
+            </div>
+            </div>
           </div>
         </div>
         <div id="main" class="p-4 grid grow border-box grid-cols-2 gap-4">
@@ -419,18 +435,17 @@
         },
 
         sumbitCheckout() {
-          const checkForm = validateFields();
+          debugger;
+          const checkForm = this.validateFields();
           if (checkForm) {
             alert("Thank you for shopping with us");
             checkoutForm = { ...initialCheckoutForm };
             checkoutForm.cart_details = [];
             document.getElementById("ecommerceForm").reset();
-            renderCarts();
           }
         },
 
         addToCart(product) {
-          debugger;
           var currentProduct = this.products.find((x) => {
             return x.id == product;
           });
@@ -456,54 +471,6 @@
             this.checkoutForm.cart_details.push(cartItem);
           }
           document.getElementById("qty" + product).value = "";
-          this.renderCarts();
-        },
-
-        renderCarts() {
-          let cartHtml = "";
-          var cartDiv = document.getElementById("boxList");
-          this.checkoutForm.cart_details.forEach((x) => {
-            var priceBox =
-              x.discounted_price < x.price
-                ? `<div class='text-seaGreen-500'>
-                            <span class='text-red-600 line-through'> ` +
-                  x.price +
-                  `</span>
-                            ` +
-                  x.discounted_price +
-                  `
-                        </div>`
-                : `<div class='text-seaGreen-500'>
-                            ` +
-                  x.price +
-                  `
-                        </div>`;
-
-            cartHtml +=
-              `<div class="box bg-red-50 font-medium text-blue-900">
-                        <div style="padding-left:10px; border-radius: 50%; padding-right: 10px; display:flex; justify-content: space-between; align-items: center;">
-                            <p >` +
-              x.name +
-              `</p>
-                            ` +
-              priceBox +
-              `
-                            <div>
-                                Quantity ` +
-              x.quantity +
-              `
-                            </div>
-                            <div>
-                                <button class="text-red-500" onclick="removeItemCart(` +
-              x.id +
-              `)">
-                                    X
-                                </button>
-                            </div>
-                        </div>
-                    </div>`;
-          });
-          cartDiv.innerHTML = cartHtml;
         },
 
         removeItemCart(id) {
@@ -511,8 +478,6 @@
             return x.id == id;
           });
           this.checkoutForm.cart_details.splice(proIndex, 1);
-
-          renderCarts();
         },
   
         changesMsg (){
