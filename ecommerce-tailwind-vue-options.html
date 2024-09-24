@@ -391,7 +391,6 @@
       computed: {
         
         computedTotalCart() {
-          debugger
           const sum = this.checkoutForm.cart_details.reduce((accumulator, currentValue) => {
             var currentPrice = currentValue.discounted_price < currentValue.price ? currentValue.discounted_price : currentValue.price
             return accumulator + currentPrice * currentValue.quantity
