@@ -106,11 +106,12 @@
             onsubmit="event.preventDefault();"
             style="display: flex; flex-direction: column; gap: 4px"
           >
-            <label>Checkout Form</label>
+            <label>Checkout Form ( {{computedTotalCart}} )</label>
             <input
               type="text"
               name="first_name"
               required
+              v-model="checkoutForm.first_name"
               id="first_name"
               placeholder="Enter you first_name"
             />
@@ -121,6 +122,7 @@
               type="text"
               name="last_name"
               required
+              v-model="checkoutForm.last_name"
               id="last_name"
               placeholder="Enter you last_name"
             />
@@ -132,6 +134,7 @@
               name="number"
               required
               id="number"
+              v-model="checkoutForm.phone_number"
               placeholder="Enter you phone_number"
             />
             <span style="color: red" hidden id="taskErrorField-number"
@@ -140,6 +143,7 @@
             <textarea
               id="address"
               name="address"
+              v-model="checkoutForm.address"
               placeholder="enter your full address"
             ></textarea>
             <span style="color: red" hidden id="taskErrorField-address"
@@ -149,6 +153,7 @@
               type="email"
               name="email"
               required
+              v-model="checkoutForm.email"
               id="email"
               placeholder="Enter you email"
             />
@@ -158,6 +163,7 @@
             <input
               type="text"
               name="postal_code"
+              v-model="checkoutForm.postal_code"
               required
               id="postal_code"
               placeholder="Enter you postal_code"
@@ -165,7 +171,9 @@
             <span style="color: red" hidden id="taskErrorField-postal_code"
               >This field is required</span
             >
-            <select id="city" name="city">
+            <select id="city" name="city"
+              v-model="checkoutForm.city"
+            >
               <option selected>Karachi</option>
               <option>Lahore</option>
               <option>Islamabed</option>
@@ -175,7 +183,9 @@
             <span style="color: red" hidden id="taskErrorField-city"
               >This field is required</span
             >
-            <select id="country" name="country">
+            <select id="country" name="country"
+              v-model="checkoutForm.country"
+            >
               <option selected>Pakistan</option>
             </select>
             <span style="color: red" hidden id="taskErrorField-country"
@@ -186,6 +196,7 @@
                 <input
                   type="radio"
                   name="task"
+                  v-model="checkoutForm.payment_method"
                   required
                   id="payment_method"
                   checked
@@ -196,6 +207,7 @@
               <label class="flex gap-2">
                 <input
                   type="radio"
+                  v-model="checkoutForm.payment_method"
                   name="task"
                   required
                   id="payment_method"
@@ -206,7 +218,7 @@
             </div>
             <button
               type="button"
-              onclick="sumbitCheckout()"
+              @click="sumbitCheckout()"
               id="submitBtn"
               class="bg-blue-600 text-white-200 p-2 border-0 hover:bg-blue-700 active:bg-blue-700 rounded-md"
             >
@@ -287,7 +299,7 @@
     </div>
   </body>
   <script>
-    const { createApp, ref, onMounted, dateFormat  } = Vue;
+    const { createApp, ref, onMounted, dateFormat, computed  } = Vue;
 
     createApp({
       setup() {
@@ -377,6 +389,14 @@
           alert("let see");
         });
 
+        const computedTotalCart = computed(() => {
+          var total = checkoutForm.value.cart_details.reduce((accumulator, currentValue) => {
+            var currentPrice = currentValue.discounted_price < currentValue.price ? currentValue.discounted_price : currentValue.price
+            return accumulator + currentPrice * currentValue.quantity
+          }, 0);
+          return total;
+        });
+
         const validateFields = () => {
           var basicFields = [
             "first_name",
@@ -388,8 +408,8 @@
             var checkValidation = true;
             basicFields.forEach((x) => {
               if (
-                document.getElementById(x).value == "" ||
-                document.getElementById(x).value == null
+                checkoutForm.value[x] == "" ||
+                checkoutForm.value[x] == null
               ) {
                 checkValidation = false;
                 document.getElementById("taskErrorField-" + x).hidden = false;
@@ -407,7 +427,7 @@
             const regex = /^(\+92|92|033|03)[ -]*\d{3}[ -]*\d{7}$/;
             return regex.test(phoneNumber);
           };
-          if (!validatePhoneNumber(document.getElementById("number").value)) {
+          if (!validatePhoneNumber(checkoutForm.value.phone_number)) {
             document.getElementById("taskErrorField-number").hidden = false;
             return false;
           } else {
@@ -417,7 +437,7 @@
             const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             return regex.test(email);
           };
-          if (!validateEmail(document.getElementById("email").value)) {
+          if (!validateEmail(checkoutForm.value.email)) {
             document.getElementById("taskErrorField-email").hidden = false;
             return false;
           } else {
@@ -431,7 +451,7 @@
         };
 
         const sumbitCheckout = () => {
-          const checkForm = this.validateFields();
+          const checkForm = validateFields();
           if (checkForm) {
             alert("Thank you for shopping with us");
             checkoutForm.value = { ...initialCheckoutForm };
@@ -489,6 +509,7 @@
           removeItemCart,
           products,
           sumbitCheckout,
+          computedTotalCart,
           changesMsg,
         };
       },
