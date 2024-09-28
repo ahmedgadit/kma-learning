@@ -7,6 +7,9 @@
     <script src="js/react-dev.js"></script>
     <script src="js/react-dom.js"></script>
     <script src="tailwindcss.js"></script>
+    <!-- Assignment react todo app through cdn using redux, redux state management tool it stores your data in localstorage-->
+    <!-- Reference Link mentioned below -->
+    <!-- https://gist.github.com/erspark2002/0ea49cc782049df5f3de271ba9ff41e1 -->
     <script>
         tailwind.config = {
             theme: {
@@ -89,86 +92,109 @@
     </script>
 </head>
 
-<body id="app" class="bg-white-50 flex flex-col text-blue-900 h-svh">
-    <div class="bg-red-50 p-8">
-        <h1 class="text-blue-500 text-6xl" id="headerComponent"> {{ message }}</h1>
-    </div>
-    <div id='container' class="flex grow flex-column">
-        <div class="w-72 box-border p-8 bg-red-100">
-            <h1 class="text-blue-400 text-2xl">Sidebar</h1>
-        </div>
-        <div id='mainBox' class="flex w-full gap-4">
-            <div class='bg-white-500 text-black-500 p-4 rounded-md shadow-2xl slideDown' style='width: 30%;'>
-                <form id='ecommerceForm' onsubmit='event.preventDefault();'
-                    style='display: flex; flex-direction:column; gap: 4px; '>
-                    <label>Checkout Form</label>
-                    <input type='text' name='first_name' required id='first_name' placeholder="Enter you first_name" />
-                    <span style='color:red;' hidden id='taskErrorField-first_name'>This field is required</span>
-                    <input type='text' name='last_name' required id='last_name' placeholder="Enter you last_name" />
-                    <span style='color:red;' hidden id='taskErrorField-last_name'>This field is required</span>
-                    <input type='tel' name='number' required id='number' placeholder="Enter you phone_number" />
-                    <span style='color:red;' hidden id='taskErrorField-number'>This field is required</span>
-                    <textarea id="address" name="address" placeholder="enter your full address"></textarea>
-                    <span style='color:red;' hidden id='taskErrorField-address'>This field is required</span>
-                    <input type='email' name='email' required id='email' placeholder="Enter you email" />
-                    <span style='color:red;' hidden id='taskErrorField-email'>This field is required</span>
-                    <input type='text' name='postal_code' required id='postal_code'
-                        placeholder="Enter you postal_code" />
-                    <span style='color:red;' hidden id='taskErrorField-postal_code'>This field is required</span>
-                    <select id="city" name="city">
-                        <option selected>Karachi</option>
-                        <option>Lahore</option>
-                        <option>Islamabed</option>
-                        <option>Peshawar</option>
-                        <option>Queta</option>
-                    </select>
-                    <span style='color:red;' hidden id='taskErrorField-city'>This field is required</span>
-                    <select id="country" name="country">
-                        <option selected>Pakistan</option>
-                    </select>
-                    <span style='color:red;' hidden id='taskErrorField-country'>This field is required</span>
-                    <div>
-                        <label class="flex gap-2 blue-700">
-                            <input type='radio' name='task' required id='payment_method' checked
-                                placeholder="Enter you payment_method" />
-                            Cash on Delivery
-                        </label>
-                        <label class="flex gap-2">
-                            <input type='radio' name='task' required id='payment_method'
-                                placeholder="Enter you payment_method" />
-                            Online Payment
-                        </label>
-                    </div>
-                    <button type='button' onclick="sumbitCheckout()" id='submitBtn' class='bg-blue-600 text-white-200 p-2 border-0 hover:bg-blue-700 active:bg-blue-700 rounded-md'>Checkout</button>
-                </form>
-                <div>
-                    <label>Cart Details</label>
-                    <div id="boxList" style="width: 80%; display: flex; flex-direction: column; gap: 4px;"
-                        class="grid-item slideDown">
+<body className="bg-white-50 flex flex-col text-blue-900 h-svh">
+    <div  id="AppComponent">
 
+    </div>
+</body>
+<script src="https://unpkg.com/@babel/standalone@7.10.3/babel.min.js" crossorigin></script>
+<script type="text/babel" data-presets="react,stage-3">
+     // Define a React functional component
+     const Example = () => {
+      const [count, setCount] = React.useState(0);
+      React.useEffect(() => {
+        document.title = `You clicked ${count} times`;
+      });
+      return (
+        <div>
+          <p>You clicked {count} times</p>
+          <button onClick={() => setCount(count + 1)}>
+            Click me
+          </button>
+        </div>
+      );
+    };
+
+    debugger;
+
+    const Application = () => {
+
+        const [message, setMessage] = React.useState('Hello React!');
+
+        return (
+            <>
+                <div className="bg-red-50 p-8">
+                    <h1 className="text-blue-500 text-6xl"> { message }</h1>
+                </div>
+                <div id='container' className="flex grow flex-column">
+                    <div className="w-72 box-border p-8 bg-red-100">
+                        <h1 className="text-blue-400 text-2xl">Sidebar</h1>
+                    </div>
+                    <div id='mainBox' className="flex w-full gap-4">
+                        <div className='bg-white-500 text-black-500 p-4 rounded-md shadow-2xl slideDown' style={{width: '30%'}}>
+                            <form id='ecommerceForm' 
+                                style={{ display: "flex", "flexDirection":"column", gap: "4px" }}>
+                                <label>Checkout Form</label>
+                                <input type='text' name='first_name' required id='first_name' placeholder="Enter you first_name" />
+                                <span style={{color: 'red'}} hidden id='taskErrorField-first_name'>This field is required</span>
+                                <input type='text' name='last_name' required id='last_name' placeholder="Enter you last_name" />
+                                <span style={{color: 'red'}} hidden id='taskErrorField-last_name'>This field is required</span>
+                                <input type='tel' name='number' required id='number' placeholder="Enter you phone_number" />
+                                <span style={{color: 'red'}} hidden id='taskErrorField-number'>This field is required</span>
+                                <textarea id="address" name="address" placeholder="enter your full address"></textarea>
+                                <span style={{color: 'red'}} hidden id='taskErrorField-address'>This field is required</span>
+                                <input type='email' name='email' required id='email' placeholder="Enter you email" />
+                                <span style={{color: 'red'}} hidden id='taskErrorField-email'>This field is required</span>
+                                <input type='text' name='postal_code' required id='postal_code'
+                                    placeholder="Enter you postal_code" />
+                                <span style={{color: 'red'}} hidden id='taskErrorField-postal_code'>This field is required</span>
+                                <select id="city" name="city" defaultValue="Karachi">
+                                    <option>Karachi</option>
+                                    <option>Lahore</option>
+                                    <option>Islamabed</option>
+                                    <option>Peshawar</option>
+                                    <option>Queta</option>
+                                </select>
+                                <span style={{color: 'red'}} hidden id='taskErrorField-city'>This field is required</span>
+                                <select id="country" name="country" defaultValue="Pakistan">
+                                    <option>Pakistan</option>
+                                </select>
+                                <span style={{color: 'red'}} hidden id='taskErrorField-country'>This field is required</span>
+                                <div>
+                                    <label className="flex gap-2 blue-700">
+                                        <input type='radio' name='task' required id='payment_method' defaultChecked={true}
+                                            placeholder="Enter you payment_method" />
+                                        Cash on Delivery
+                                    </label>
+                                    <label className="flex gap-2">
+                                        <input type='radio' name='task' required id='payment_method'
+                                            placeholder="Enter you payment_method" />
+                                        Online Payment
+                                    </label>
+                                </div>
+                                <button type='button'  id='submitBtn' className='bg-blue-600 text-white-200 p-2 border-0 hover:bg-blue-700 active:bg-blue-700 rounded-md'>Checkout</button>
+                            </form>
+                            <div>
+                                <label>Cart Details</label>
+                                <div id="boxList" style={{ width: "80%", display: "flex", flexDirection: "column", gap: "4px" }}
+                                    className="grid-item slideDown">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id='main' className="p-4 grid grow border-box grid-cols-2 gap-4">
+
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div id='main' class="p-4 grid grow border-box grid-cols-2 gap-4">
-
-            </div>
-        </div>
-</body>
-<script>
-     // Define a React functional component
-     function App() {
-        debugger
-        const [message, setMessage] = React.useState('Hello React!');
-        return React.createElement('div', null, message);
+            </>
+        )
     }
 
-    // Mount the React component to the DOM
-    ReactDOM.render(
-        React.createElement(App),
-        document.getElementById('headerComponent')
-    );
-
-
+    const root = ReactDOM.createRoot(document.getElementById("AppComponent"))
+    root.render(<Application />);
+</script>
+<script>
     var initialCheckoutForm = {
         first_name: '',
         last_name: '',
@@ -344,14 +370,14 @@
         let cartHtml = '';
         var cartDiv = document.getElementById('boxList');
         checkoutForm.cart_details.forEach((x) => {
-            var priceBox = x.discounted_price < x.price ? `<div class='text-seaGreen-500'>
-                        <span class='text-red-600 line-through'> `+ x.price + `</span>
+            var priceBox = x.discounted_price < x.price ? `<div className='text-seaGreen-500'>
+                        <span className='text-red-600 line-through'> `+ x.price + `</span>
                         `+ x.discounted_price + `
-                    </div>` : `<div class='text-seaGreen-500'>
+                    </div>` : `<div className='text-seaGreen-500'>
                         `+ x.price + `
                     </div>` ;
 
-            cartHtml += `<div class="box bg-red-50 font-medium text-blue-900">
+            cartHtml += `<div className="box bg-red-50 font-medium text-blue-900">
                     <div style="padding-left:10px; border-radius: 50%; padding-right: 10px; display:flex; justify-content: space-between; align-items: center;">
                         <p >`+ x.name + `</p>
                         `+ priceBox + `
@@ -359,7 +385,7 @@
                             Quantity `+ x.quantity + `
                         </div>
                         <div>
-                            <button class="text-red-500" onclick="removeItemCart(`+ x.id + `)">
+                            <button className="text-red-500" onclick="removeItemCart(`+ x.id + `)">
                                 X
                             </button>
                         </div>
@@ -372,19 +398,19 @@
         let productHtml = '';
         var productDiv = document.getElementById('main');
         products.forEach((x) => {
-            var priceBox = x.discounted_price < x.price ? `<div class='text-seaGreen-500'>
-                        <span class='text-red-600 line-through'> `+ x.price + `</span>
+            var priceBox = x.discounted_price < x.price ? `<div className='text-seaGreen-500'>
+                        <span className='text-red-600 line-through'> `+ x.price + `</span>
                         `+ x.discounted_price + `
-                    </div>` : `<div class='text-seaGreen-500'>
+                    </div>` : `<div className='text-seaGreen-500'>
                         `+ x.price + `
                     </div>` ;
-            productHtml += `<div class='bg-white-500 text-black-500 p-4 rounded-md shadow-2xl slideDown'>
-                    <h1 class='font-bold'>`+ x.name + `</h1>
-                    <p class='font-medium'>`+ x.description + `</p>
+            productHtml += `<div className='bg-white-500 text-black-500 p-4 rounded-md shadow-2xl slideDown'>
+                    <h1 className='font-bold'>`+ x.name + `</h1>
+                    <p className='font-medium'>`+ x.description + `</p>
                     `+ priceBox + `
-                    <div class=''>
+                    <div className=''>
                         <input type='number' id='qty`+ x.id + `'/>
-                        <button class='bg-blue-400 text-white-200 font-medium rounded-lg w-32 py-1' onclick='addToCart(`+ x.id + `)'>Add to Cart</button>
+                        <button className='bg-blue-400 text-white-200 font-medium rounded-lg w-32 py-1' onclick='addToCart(`+ x.id + `)'>Add to Cart</button>
 
                     </div>
                 </div>`;

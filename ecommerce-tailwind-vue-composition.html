@@ -195,12 +195,11 @@
               <label class="flex gap-2 blue-700">
                 <input
                   type="radio"
-                  name="task"
                   v-model="checkoutForm.payment_method"
                   required
-                  id="payment_method"
-                  checked
-                  placeholder="Enter you payment_method"
+                  value="cod"
+                  id="cod"
+                  name="payment_method"
                 />
                 Cash on Delivery
               </label>
@@ -208,10 +207,10 @@
                 <input
                   type="radio"
                   v-model="checkoutForm.payment_method"
-                  name="task"
+                  value="op"
                   required
-                  id="payment_method"
-                  placeholder="Enter you payment_method"
+                  id="op"
+                  name="payment_method"
                 />
                 Online Payment
               </label>
@@ -313,7 +312,7 @@
           postal_code: "",
           city: "",
           country: "",
-          payment_method: "",
+          payment_method: "op",
           shipping_details: {
             address: "",
             city: "",
@@ -334,7 +333,7 @@
           postal_code: "",
           city: "",
           country: "",
-          payment_method: "",
+          payment_method: "op",
           shipping_details: {
             address: "",
             city: "",
@@ -386,7 +385,7 @@
 
 
         onMounted(()=>{
-          alert("let see");
+          debugger;
         });
 
         const computedTotalCart = computed(() => {
