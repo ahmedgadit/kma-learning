@@ -125,7 +125,94 @@
     // <div class="px-2 py-2 w-10"> this will not render
     // <div className="px-2 py-2 w-10">
 
-    const ProductBox = () => {
+    const PriceBox = ({price, discounted_price}) => {
+      const calculatePrice = discounted_price < price;
+      if(calculatePrice) {
+        return (
+          <div className="text-seaGreen-500">
+              <span className="text-red-600 line-through">{ price }</span>
+              { discounted_price }
+          </div>
+        )
+      }
+      return (
+        <div className="text-seaGreen-500">{ price }</div>
+      )
+    }
+
+
+    const ProductBox = ({ product, checkoutForm, updateCart, ...rest}) => {
+      const addToCart = (product) => {
+        var currentProduct = products.find((x) => {
+          return x.id == product;
+        });
+        var currentQty =
+          document.getElementById("qty" + product).value == "" ||
+          document.getElementById("qty" + product).value == null
+            ? 1
+            : document.getElementById("qty" + product).value;
+        cartExistIndex = checkoutForm.cart_details.findIndex((x) => {
+          return x.id == product;
+        });
+        if (cartExistIndex != -1) {
+          checkoutForm.cart_details[cartExistIndex].quantity +=
+            parseInt(currentQty);
+        } else {
+          var cartItem = {
+            ...currentProduct,
+            quantity: currentQty,
+          };
+
+          checkoutForm.cart_details.push(cartItem);
+        }
+        updateCart(checkoutForm.cart_details);
+        document.getElementById("qty" + product).value = "";
+      }
+
+      return (
+        <div className="bg-white-500 text-black-500 p-4 rounded-md shadow-2xl slideDown">
+          <h1 className="font-bold">{ product.name }</h1>
+          <p className="font-medium">{ product.description }</p>
+          <PriceBox price={product.price} discounted_price={product.discounted_price} />
+          <div className="">
+            <input type="number" id={"qty"+ product.id} />
+            <button
+                className="bg-blue-400 text-white-200 font-medium rounded-lg w-32 py-1"
+                onClick={()=>{ addToCart(product.id) }}
+            >
+                Add to Cart
+            </button>
+          </div>
+        </div>
+      )
+    }
+
+    const CartBox = ({name, price, discounted_price, quantity, ...cartDetail}) => {
+
+
+
+      return (
+        <div className="box bg-red-50 font-medium text-blue-900">
+          <div style={{
+            "padding-left":"10px", 'border-radius': '50%', 'padding-right': '10px', 'display':'flex', 'justify-content': 'space-between', 'align-items': 'center'
+          }}>
+              <p >{name}</p>
+              <PriceBox price={price} discounted_price={discounted_price}/>
+            <div>
+                Quantity {quantity}
+            </div>
+            <div>
+                <button className="text-red-500" >
+                    X
+                </button>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    const ProductList = ({ updateCart, checkoutForm }) => {
+      const [checkFormVal, setCheckFormVal] = React.useState(checkoutForm);
         const products = [
             {
                 id: 1,
@@ -168,27 +255,9 @@
         return (
             <>
             {
-                products.map((x) => {
+                products.map((x, index) => {
                     return (
-                        <div className="bg-white-500 text-black-500 p-4 rounded-md shadow-2xl slideDown">
-                            <h1 className="font-bold">{ x.name }</h1>
-                            <p className="font-medium">{ x.description }</p>
-
-                            <div className="text-seaGreen-500" v-if="x.discounted_price < x.price">
-                            <span className="text-red-600 line-through">{ x.price }</span>
-                            { x.discounted_price }
-                            </div>
-                            <div className="text-seaGreen-500" v-else>{ x.price }</div>
-                            <div className="">
-                            <input type="number" id='"qty"+ x.id' />
-                            <button
-                                className="bg-blue-400 text-white-200 font-medium rounded-lg w-32 py-1"
-                                onClick={()=>{ addToCart(x.id) }}
-                            >
-                                Add to Cart
-                            </button>
-                            </div>
-                        </div>
+                      <ProductBox key={index} product={x} checkoutForm={checkoutForm} updateCart={(cart)=>{ updateCart(cart) }} arrayIndex={index} style="" id=""/>
                      )
                 })
             }
@@ -196,15 +265,67 @@
         )
     }
 
+    const CartList = ({cart}) => {
+      return (
+        <div id="boxList" style={{ width: "80%", display: "flex", flexDirection: "column", gap: "4px" }}
+          className="grid-item slideDown">
+          {
+            cart.map((x) => {
+              return (
+                <CartBox cartDetail={x} />
+              )
+            })
+          }
+        </div>
+      )
+    }
+
     const Application = () => {
 
         const [message, setMessage] = React.useState('Hello React!');
+        const [cart, setCart] = React.useState([]);
+        const initialCheckoutForm = {
+          first_name: "",
+          last_name: "",
+          phone_number: 0,
+          address: "",
+          email: "",
+          postal_code: "",
+          city: "",
+          country: "",
+          payment_method: "",
+          shipping_details: {
+            address: "",
+            city: "",
+            postal_code: "",
+            country: "",
+            phone_number: "",
+            reciever_name: "",
+          },
+          total_amount: "",
+          cart_details: [],
+        };
+        const [checkoutForm, setCheckoutForm] = React.useState(initialCheckoutForm);
        
         let newMesg = "This is Let";
         const changeMessageValue = (newVal) => {
             setMessage(newVal);
             newMesg = "This has been changed also";
         }
+
+        const updateCart = (cart) => {
+          setCheckoutForm((prev) => {
+            const newObject = {...prev}
+            newObject.cart_details = cart;
+
+            return newObject;
+          })
+        }
+
+        React.useEffect(()=> {
+          debugger;
+          setCart(checkoutForm.cart_details)
+        },[checkoutForm.cart_details])
 
         return (
             <>
@@ -265,14 +386,11 @@
                             </form>
                             <div>
                                 <label>Cart Details</label>
-                                <div id="boxList" style={{ width: "80%", display: "flex", flexDirection: "column", gap: "4px" }}
-                                    className="grid-item slideDown">
-
-                                </div>
+                                <CartList cart={cart}/>
                             </div>
                         </div>
                         <div id='main' className="p-4 grid grow border-box grid-cols-2 gap-4">
-                            <ProductBox />
+                            <ProductList updateCart={(cart) => { updateCart(cart) }} checkoutForm={checkoutForm}/>
                         </div>
                     </div>
                 </div>
@@ -412,7 +530,6 @@
       return true;
     }
     function sumbitCheckout() {
-      debugger;
       const checkForm = validateFields();
       if (checkForm) {
         alert("Thank you for shopping with us");
@@ -422,40 +539,13 @@
         renderCarts();
       }
     }
-    function addToCart(product) {
-      debugger;
-      var currentProduct = products.find((x) => {
-        return x.id == product;
-      });
-      var currentQty =
-        document.getElementById("qty" + product).value == "" ||
-        document.getElementById("qty" + product).value == null
-          ? 1
-          : document.getElementById("qty" + product).value;
-      cartExistIndex = checkoutForm.cart_details.findIndex((x) => {
-        return x.id == product;
-      });
-      if (cartExistIndex != -1) {
-        checkoutForm.cart_details[cartExistIndex].quantity +=
-          parseInt(currentQty);
-      } else {
-        var cartItem = {
-          ...currentProduct,
-          quantity: currentQty,
-        };
-
-        checkoutForm.cart_details.push(cartItem);
-      }
-      document.getElementById("qty" + product).value = "";
-      renderCarts();
-    }
+    
     /**
      * This function is used to remove items from cart
      * @params number id
      * return void | null
      */
     function removeItemCart(id) {
-      debugger;
       var proIndex = checkoutForm.cart_details.findIndex((x) => {
         return x.id == id;
       });
