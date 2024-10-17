@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Image, Stack, Text } from "@chakra-ui/react";
 
 const NewsCard = ({ title, description, imageUrl, imagePayload }) => {
     let imageSrc = imageUrl;
@@ -15,35 +15,33 @@ const NewsCard = ({ title, description, imageUrl, imagePayload }) => {
     }
 
     return (
-        <Box 
-            p={2} // Reduced padding
-            borderWidth="1px" 
-            borderRadius="md" 
-            shadow="sm" // Lighter shadow
-            bg="white"
-            height="150px" // Set a fixed height for uniformity
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-        >
-                <div className="border rounded-lg overflow-hidden shadow-lg">
+        
+        <Box borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
             {imageSrc ? (
-                <img
+                <Image
                     src={imageSrc}
                     alt={title}
-                    className="w-full h-48 object-cover"
+                    height="48"
+                    objectFit="cover"
+                    width="full"
                 />
             ) : (
-                <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
-                    <span className="text-gray-500">No Image Available</span>
-                </div>
+                <Box
+                    height="48"
+                    bg="gray.200"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                >
+                    <Text color="black">No Image Available</Text>
+                </Box>
             )}
-            <div className="p-4">
-                <h2 className="text-xl font-bold mb-2">{title}</h2>
-                <p className="text-gray-700">{description}</p>
-            </div>
-        </div>
+            <Stack p={4}>
+                <Text fontSize="xl" fontWeight="bold" mb={2}>
+                    {title}
+                </Text>
+                <Text color="gray.700">{description}</Text>
+            </Stack>
         </Box>
         
     );

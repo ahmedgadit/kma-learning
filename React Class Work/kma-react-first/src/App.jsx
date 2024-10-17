@@ -12,8 +12,6 @@ const App = () => {
   const [pageRecord, setPageRecord] = useState({
     data: [], 
     cureentPagination: 1, 
-    nextPage: 2, 
-    prevPage:null, 
     limit: 10
   });
   const [offset, setOffset] = useState(0);
@@ -51,11 +49,14 @@ const App = () => {
 
     //   // Catch errors if any
     //   .catch((err) => {});
+    async function newsMap() {
 
-    fetch(url, options).then(
-      response => {
+    }
+
+     await fetch(url, options).then(
+      async (response) => {
         if (response.ok) {
-          return response.text();
+          return await response.text();
         }
         return response.text().then(err => {
           return Promise.reject({
@@ -72,10 +73,25 @@ const App = () => {
           var updateRecords = [...prev, ...result.results];
           return updateRecords;
         })
+        setPageRecord((prev)=> {
+          var currentPageRecord = {...prev};
+          currentPageRecord.data = [...result.results.slice((currentPageRecord.cureentPagination - 1) * currentPageRecord.limit, currentPageRecord.cureentPagination * currentPageRecord.limit)];
+          return currentPageRecord;
+        })
+
       })
       .catch(err => {
         console.error(err);
-      });
+      }).finally();
+  }
+
+  const changePage = (pageDetail) => {
+    console.log(pageDetail);
+    setPageRecord((prev)=> {
+      var currentPageRecord = {...prev};
+      currentPageRecord.data = news.slice((pageDetail.page - 1) * currentPageRecord.limit, pageDetail.page * currentPageRecord.limit);
+      return currentPageRecord;
+    })
   }
 
   useEffect(() => {
@@ -98,10 +114,19 @@ const App = () => {
         </Flex>
 
         {/* Main Content */}
+        <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing={4} p={4} flex="1">
+          {pageRecord.data.length > 0 && (
+            pageRecord.data.map((x, index) => {
+              return (
+                <NewsCard title={x.title} description={x.abstract} imagePayload={x.multimedia} key={index} />
+              )
+            })
+          )}
+        </SimpleGrid>
         
-        <PaginationRoot count={10} pageSize={2} defaultPage={1} type='button' variant="solid" color={"black"} h={10}>
+        <PaginationRoot count={500} pageSize={pageRecord.limit} defaultPage={1} type='button' onPageChange={(PageChangeDetails)=>{ changePage(PageChangeDetails) }} variant="solid" >
           <HStack>
-            <PaginationPrevTrigger h={10} value={"Prev"} text="Prev" w={20} color={"black"}/>
+            <PaginationPrevTrigger h={10} value={"Prev"} text="Prev"/>
             <PaginationItems />
             <PaginationNextTrigger value={"Next"}/>
           </HStack>
