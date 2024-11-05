@@ -1,0 +1,19 @@
+var product = [
+    {
+        id: 1
+        name: "cricket bat"
+        status: active / in active
+    }
+]
+
+var checkout = {
+    status: complete/pending/travelinng
+    cart_details: []
+}
+
+var cart_details = [{
+    product_id: 1
+    quantity: 1
+    status: processed/not processed
+    price: 200
+}]

@@ -6,3 +6,159 @@ boolean - true / false
 object - { name: "ball pen", color: "blue", price: 10 }
 array - [] , examples of array - [1,0,"cyz",true] (bad form of array), ['arbaz', 'haseeb', 'mustafa'], [1,2,3,4]
 array of objects - [{}, {}, {},] - [{name:"arbaz", age:14}, {name:"mustafa", age:16}, {name:"haseeb", age:15}]
+
+
+
+
+// Data 
+
+// product = {
+//     id - integer / auto increment
+//     name
+//     price
+//     description
+// }
+
+// // warehouse 
+// warehouse = {}
+
+// // warehouse_inventory 
+// warehouse_inventory = {
+//     id --- integer / autoincrement
+//     product_id
+//     warehouse_inventory
+// }
+
+// addToCart = {
+//     product_id
+// }
+
+
+// relationship 
+// one to one 
+
+settings {
+    id
+    logo
+    discount_break: 2000,
+    defult_delivery_charges: 250
+}
+
+ecommerce_application {
+    setting_id
+}
+
+categories {
+    id: 1
+    name: mens
+    parent_id:
+}
+
+category {
+    id
+    name: clothes
+    parent_id: 1
+}
+// one to many
+
+product {
+    id
+    name: lipstick
+}
+
+product_variation {
+    id
+    product_id
+    color: blue
+    size: small
+    price: 100
+}
+
+{
+    id
+    product_id
+    color: red
+    size: small
+    price: 200
+}
+
+// many to one 
+product {
+    id
+    name: lipstick
+}
+
+product_variation {
+    id
+    product_id
+    color: blue
+    size: small
+    price: 100
+}
+
+{
+    id
+    product_id
+    color: red
+    size: small
+    price: 200
+}
+product {
+    id
+    name: lipstick
+}
+
+product_variation {
+    id
+    product_id
+    size: small
+    price: 100
+}
+
+{
+    id
+    product_id
+    size: small
+    price: 200
+}
+
+
+// many to many
+
+user {
+    id: 1
+    name: ahmed
+}
+
+role {
+    id: 1
+    name: admin
+}
+{
+    id: 2
+    name: staff
+}
+
+permissions {
+    id
+    name
+}
+
+// pivot tables 
+users_roles {
+    id: 1
+    user_id: 1
+    role_id: 1
+}
+{
+    id: 2
+    user_id: 1
+    role_id: 2
+}
+
+
+roles_permissions {
+    id
+    role_id
+    permission_id
+}
